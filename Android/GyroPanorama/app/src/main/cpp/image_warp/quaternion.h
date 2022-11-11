@@ -67,7 +67,10 @@ public:
     UVcoord toUV() const;
 
     inline void print(const char *tag) const {
-        LOGD(tag, "Q(%f, %f, %f, %f)", w, x, y, z);
+        LOGD(tag,
+             "Q(%f, %f, %f, %f), euler (%f, %f, %f)",
+             w, x, y, z,
+             euler_x, euler_y, euler_z);
     }
 };
 

@@ -67,10 +67,8 @@ public class CameraDevice : MonoBehaviour
         }
         setFrameAspectRatio();
 
-
-        var frame = backCam.GetPixels32();
         plugin.sendCameraFramesToPlugin(
-            frame, backCam.width, backCam.height, gyroController.rot);
+            backCam.GetPixels32(), backCam.width, backCam.height, gyroController.rot);
     }
 
     private void setFrameAspectRatio()

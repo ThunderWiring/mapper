@@ -8,11 +8,25 @@ set(OpenCV_STATIC on)
 set(OpenCV_DIR $ENV{OPENCV_ANDROID}/sdk/native/jni)
 find_package(OpenCV REQUIRED)
 
-add_subdirectory(unityRenderingPlugin)
-
 include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/image_warp)
 include_directories(${PROJECT_SOURCE_DIR}/geometry)
+include_directories(${PROJECT_SOURCE_DIR}/unityRenderingPlugin)
+include_directories(${PROJECT_SOURCE_DIR}/unityRenderingPlugin/pluginInterface)
+include_directories(${PROJECT_SOURCE_DIR}/unityRenderingPlugin/Unity)
+
+
+add_library(
+        NativeRenderingPlugin
+        SHARED
+        unityRenderingPlugin/RenderAPI.cpp
+        unityRenderingPlugin/RenderAPI_D3D11.cpp
+        unityRenderingPlugin/RenderAPI_D3D12.cpp
+        unityRenderingPlugin/RenderAPI_OpenGLCoreES.cpp
+        unityRenderingPlugin/RenderAPI_Vulkan.cpp
+        unityRenderingPlugin/RenderingPlugin.cpp
+        unityRenderingPlugin/pluginInterface/unityPluginInterface.cpp
+)
 
 add_library(
         imageWarp
@@ -22,12 +36,6 @@ add_library(
         ${PROJECT_SOURCE_DIR}/image_warp/quaternion.cpp
 )
 
-add_library(
-        geo
-        SHARED
-)
-
-
 find_library(log-lib log)
 find_library(native-media-lib mediandk)
 find_library(android-lib android)
@@ -36,16 +44,13 @@ find_library(gl-lib GLESv2)
 
 
 target_link_libraries(
-        geo
+        imageWarp
         ${gl-lib}
         ${jnigraphics-lib}
         ${OpenCV_LIBS}
 )
 
 target_link_libraries(
+        NativeRenderingPlugin
         imageWarp
-        ${gl-lib}
-        ${jnigraphics-lib}
-        ${OpenCV_LIBS}
-        ${geo}
 )

@@ -3,8 +3,14 @@ using System;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
+/// <summary>
+/// Functions that are implemented in the Native code can be called from Unity scripts code.
+/// </summary>
 public class NativePlugin : MonoBehaviour
 {
+    /// <summary>
+    /// Wrapper to match the Quaternion class defined in native.
+    /// </summary>
     struct RotationInfo
     {
         public float w, xs, ys, zs;
@@ -77,9 +83,8 @@ public class NativePlugin : MonoBehaviour
     public void sendCameraFramesToPlugin(
         Color32[] pixels, int width, int height, Quaternion q)
     {
-        var rot = getRotationInfo(q);
-        UnityLogger.DLog("receiveGyroImage ");
-        receiveGyroImage(pixels, width, height, rot);
+        //var rot = getRotationInfo(q);
+        //receiveGyroImage(pixels, width, height, rot);
     }
 
     private RotationInfo getRotationInfo(Quaternion q) {

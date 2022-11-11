@@ -10,27 +10,6 @@ PanoBuilder::PanoBuilder() {
 
 void PanoBuilder::addImage(Mat &img, Quaternion &rot) {
     LOG_IMG("pano_builder-addImage", img);
-    rot.print("pano_builder-addImage");
-
-    // warp the image accordiwng to the rot matrix
-    Mat rot_mat(Mat(4, 4, CV_32F)), H_3x3(Mat(3, 3, CV_32F)), warpped;
-
-    rot.get3x3Matrix(H_3x3);
-
-    ImageBlock img_block = {
-            .img = img,
-            .H = H_3x3,
-            .rot = rot,
-            .com = get_center_of_mass(img, H_3x3),
-    };
-//    LOGD("pano_builder-corners H_3x3", "h \n\t%f, %f, %f\n\t%f, %f, %f\n\t%f, %f, %f",
-//         H_3x3.at<float>(0, 0), H_3x3.at<float>(0, 1), H_3x3.at<float>(0, 2),
-//         H_3x3.at<float>(1, 0), H_3x3.at<float>(1, 1), H_3x3.at<float>(1, 2),
-//         H_3x3.at<float>(2, 0), H_3x3.at<float>(2, 1), H_3x3.at<float>(2, 2)
-//    );
-//    cv::warpPerspective(img, img_block.warped, H_3x3,/*size of out image*/ cv::Size());
-//    LOGD("pano_builder", "assigning to warped img to pano");
-//    assign_to_pano(img_block);
 }
 
 void PanoBuilder::assign_to_pano(ImageBlock &img_block) {

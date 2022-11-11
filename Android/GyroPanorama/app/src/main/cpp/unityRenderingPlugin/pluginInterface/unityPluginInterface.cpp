@@ -34,6 +34,7 @@ void UnityPluginInterface::getImageFromUnity(UnityColor32 *bytes, int width, int
 
 void UnityPluginInterface::getImageFromUnity(
         Quaternion q, UnityColor32 *pixels, int width, int height) {
+//    q.print("UnityPluginInterface");
     long curr_ts = getCurrentTimestamp();
     if (curr_ts - last_ts < MIN_FRAME_INTERVAL_MILLISEC) {
         return;
@@ -48,6 +49,7 @@ void UnityPluginInterface::getImageFromUnity(
     } else if (img.channels() == 4) {
         cv::cvtColor(img, img, cv::COLOR_RGBA2BGR);
     }
+
     image_buffer.push_back(std::make_shared<Mat>(img));
     rotation_buffer.push_back(std::make_shared<Quaternion>(q));
     image_workers.emplace_back([&]() {
@@ -57,10 +59,6 @@ void UnityPluginInterface::getImageFromUnity(
 
 void UnityPluginInterface::getPanoramaDims(int &width, int &height) {
     joinImageThreads();
-//    PanoramaAttributes attrs = {};
-//    panorama.getAttributes(attrs);
-//    width = attrs.width;
-//    height = attrs.height;
 }
 
 inline void UnityPluginInterface::joinImageThreads() {
