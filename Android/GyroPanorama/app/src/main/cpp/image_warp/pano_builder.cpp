@@ -8,7 +8,7 @@ PanoBuilder::PanoBuilder() {
 }
 
 void PanoBuilder::addImage(Mat &img, Quaternion &rot) {
-    LOG_IMG("pano_builder-addImage", img);
+
 }
 
 

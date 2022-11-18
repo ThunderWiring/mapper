@@ -20,15 +20,4 @@ struct UVcoord {
 
 void getMatFromPixels(UnityColor32 *bytes, int width, int height, cv::Mat &out);
 
-/**
- * Stores attributes for an image frame as well as provides an interface to manipulate its geometry
- * */
-class ImageFrame {
-private:
-    Mat frame;
-
-public:
-    ImageFrame(Mat& frame);
-};
-
 #endif //GYROPANORAMA_IMAGE_READER_H
