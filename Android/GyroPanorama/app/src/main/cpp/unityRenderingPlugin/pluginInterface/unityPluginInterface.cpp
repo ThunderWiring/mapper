@@ -34,7 +34,6 @@ void UnityPluginInterface::getImageFromUnity(UnityColor32 *bytes, int width, int
 
 void UnityPluginInterface::getImageFromUnity(
         Quaternion q, UnityColor32 *pixels, int width, int height) {
-//    q.print("UnityPluginInterface");
     long curr_ts = getCurrentTimestamp();
     if (curr_ts - last_ts < MIN_FRAME_INTERVAL_MILLISEC) {
         return;
@@ -58,10 +57,11 @@ void UnityPluginInterface::getImageFromUnity(
 }
 
 void UnityPluginInterface::getPanoramaDims(int &width, int &height) {
-    joinImageThreads();
+    LOGD("getPanoramaDims", "total images to process %d", image_buffer.size());
+    // joinImageThreads();
 }
 
-inline void UnityPluginInterface::joinImageThreads() {
+void UnityPluginInterface::joinImageThreads() {
     for (auto &img_worker : image_workers) {
         if (img_worker.joinable()) {
             img_worker.join();

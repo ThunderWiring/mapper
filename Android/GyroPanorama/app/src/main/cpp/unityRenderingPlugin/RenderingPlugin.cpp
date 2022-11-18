@@ -117,7 +117,8 @@ EXPORTED void receiveGyroImage(
         LOGE("RenderingPlugin", "receiveGyroImage - null pixels array");
         return;
     }
-    pluginInterface.getImageFromUnity(Quaternion(rotInfo), pixels, width, height);
+    pluginInterface.getImageFromUnity(
+            Quaternion(rotInfo), pixels, width, height);
 }
 
 /** Gets the image from Unity into the plugin

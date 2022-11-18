@@ -83,8 +83,8 @@ public class NativePlugin : MonoBehaviour
     public void sendCameraFramesToPlugin(
         Color32[] pixels, int width, int height, Quaternion q)
     {
-        //var rot = getRotationInfo(q);
-        //receiveGyroImage(pixels, width, height, rot);
+        var rot = getRotationInfo(q);
+        receiveGyroImage(pixels, width, height, rot);
     }
 
     private RotationInfo getRotationInfo(Quaternion q) {

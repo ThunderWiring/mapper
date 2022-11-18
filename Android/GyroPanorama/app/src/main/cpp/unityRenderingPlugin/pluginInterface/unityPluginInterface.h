@@ -23,7 +23,7 @@ private:
     vector <std::shared_ptr<Mat>> image_buffer;
     vector <std::shared_ptr<Quaternion>> rotation_buffer;
 
-    inline void joinImageThreads();
+    void joinImageThreads();
 
 public:
     UnityPluginInterface();

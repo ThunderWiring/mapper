@@ -9,14 +9,19 @@ enum CameraDeviceStatus
     NotInitialized, Recording, Paused
 }
 
+enum CaptureMode { 
+    Video, Snapshot
+}
+
 /// <summary>
 /// Controls the device camera and reads frames from the main camera for processing.
 /// </summary>
 [RequireComponent(typeof(GyroController), typeof(NativePlugin))]
 public class CameraDevice : MonoBehaviour
 {
-    [SerializeField] private Button cameraButton;
-    [SerializeField] private RawImage background;
+    [SerializeField] private Toggle videoCamToggle; /* Used to switch between video and single shots mode. */
+    [SerializeField] private Button cameraButton; /* Triggeres taking a snapshot or video */
+    [SerializeField] private RawImage background; /* Canvas displaying the camera feed. */
     [SerializeField] private AspectRatioFitter aspectRatioFitter;
 
     private const float ZOOM = 0.43f;
@@ -27,6 +32,7 @@ public class CameraDevice : MonoBehaviour
     private WebCamTexture backCam;
     private GyroController gyroController;
     private NativePlugin plugin;
+    private CaptureMode captureMode;
 
     private void Awake()
     {
@@ -37,10 +43,24 @@ public class CameraDevice : MonoBehaviour
 
     void Update()
     {
-        if (shouldStartRecording)
-        {
-            updateCameraFrame();
+        captureMode = videoCamToggle.isOn ? CaptureMode.Video : CaptureMode.Snapshot;
+        string cameraButtonText = captureMode == CaptureMode.Snapshot 
+            ? "Take Image" 
+            : shouldStartRecording 
+                ? "Stop" : "Start";
+        cameraButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = cameraButtonText;
+
+        if (captureMode == CaptureMode.Snapshot) {
+            shouldStartRecording = false;
+        } else if (shouldStartRecording) {
+            //passFrameToPlugin();
         }
+        updateCameraFrame();
+    }
+
+    private void passFrameToPlugin() {
+        plugin.sendCameraFramesToPlugin(
+            backCam.GetPixels32(), backCam.width, backCam.height, gyroController.rot);
     }
 
     private void onRecordingStop()
@@ -65,10 +85,7 @@ public class CameraDevice : MonoBehaviour
             Debug.Log(string.Format("Still is waiting another frame for correct info. Frame dims: ({0}, {1}", backCam.width, backCam.height));
             return;
         }
-        setFrameAspectRatio();
-
-        plugin.sendCameraFramesToPlugin(
-            backCam.GetPixels32(), backCam.width, backCam.height, gyroController.rot);
+        setFrameAspectRatio();        
     }
 
     private void setFrameAspectRatio()
@@ -123,7 +140,6 @@ public class CameraDevice : MonoBehaviour
         cameraState = CameraDeviceStatus.Recording;
         backCam.Play();
         background.texture = backCam;
-        Debug.Log(string.Format("backCam: w={0}, h={1}", backCam.width, backCam.height));
         plugin.registerTexture(backCam);
     }
 
@@ -135,10 +151,14 @@ public class CameraDevice : MonoBehaviour
         if (cameraButton == null)
         {
             Debug.Log("Button is NULL");
+            return;
         }
+        else if (captureMode == CaptureMode.Snapshot) {
+            passFrameToPlugin();
+            return;
+        }
+
         shouldStartRecording = !shouldStartRecording;
-        string buttonText = shouldStartRecording ? "Stop" : "Start";
-        cameraButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = buttonText;
         if (!shouldStartRecording && cameraState == CameraDeviceStatus.Recording)
         {
             onRecordingStop();
