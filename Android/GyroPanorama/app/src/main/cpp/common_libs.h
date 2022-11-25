@@ -17,6 +17,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 
 using cv::Mat;
+using cv::Point2f;
 
 using std::vector;
 using std::thread;

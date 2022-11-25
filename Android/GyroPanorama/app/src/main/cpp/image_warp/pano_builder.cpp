@@ -3,7 +3,7 @@
 //
 
 #include "pano_builder.h"
-
+#include "pano_stitcher.h"
 
 PanoBuilder::PanoBuilder():
     pano_image(Mat()),
@@ -26,17 +26,9 @@ void PanoBuilder::addImage(Mat &img, Quaternion &rot) {
 }
 
 void PanoBuilder::stitch_image(Mat &img) {
-    cv::Ptr<Stitcher> stitcher = Stitcher::create(mode);
-
-    // Command to stitch all the images present in the image array
-    auto imgs = vector<Mat>({img, pano_image});
-    Stitcher::Status status = stitcher->stitch(imgs, pano_image);
-
-    if (status != Stitcher::OK) {
-        // Check if images could not be stitched
-        // status is OK if images are stitched successfully
-        LOGE("PanoBuilder::stitch_image", "cannot stitch image with pano - status code %d", status);
-    }
+    Mat res;
+    stitchImages(img, pano_image, res);
+    pano_image = res;
 }
 
 

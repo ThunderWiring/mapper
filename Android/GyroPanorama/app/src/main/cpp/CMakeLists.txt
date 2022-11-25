@@ -10,6 +10,7 @@ find_package(OpenCV REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/image_warp)
+include_directories(${PROJECT_SOURCE_DIR}/image_warp/stitcher)
 include_directories(${PROJECT_SOURCE_DIR}/geometry)
 include_directories(${PROJECT_SOURCE_DIR}/unityRenderingPlugin)
 include_directories(${PROJECT_SOURCE_DIR}/unityRenderingPlugin/pluginInterface)
@@ -34,6 +35,7 @@ add_library(
         ${PROJECT_SOURCE_DIR}/image_warp/pano_builder.cpp
         ${PROJECT_SOURCE_DIR}/image_warp/image_reader.cpp
         ${PROJECT_SOURCE_DIR}/image_warp/quaternion.cpp
+        ${PROJECT_SOURCE_DIR}/image_warp/stitcher/pano_stitcher.cpp
 )
 
 find_library(log-lib log)
