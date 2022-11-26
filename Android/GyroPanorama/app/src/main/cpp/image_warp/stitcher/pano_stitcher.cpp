@@ -22,9 +22,6 @@ void stitchImages(Mat &img1, Mat &img2, Mat &res) {
         return;
     }
 
-    LOGD("panot_stitcher", "stitchImages - kpts1 size = %d, kpts2 size = %d", kpts1.size(),
-         kpts2.size());
-
     vector<cv::DMatch> good_matches;
     matchImages(desc1, desc2, good_matches);
     if (good_matches.size() < MIN_GOOD_MATCHES_COUNT) {
@@ -33,8 +30,6 @@ void stitchImages(Mat &img1, Mat &img2, Mat &res) {
              MIN_GOOD_MATCHES_COUNT, good_matches.size());
         return;
     }
-
-    LOGD("panot_stitcher", "stitchImages -good_matches size = %d", good_matches.size());
 
     Mat H;
     getHomographyFromMatches(kpts1, kpts2, good_matches, H);
