@@ -82,7 +82,9 @@ public class CameraDevice : MonoBehaviour
         }
         else if (backCam.width < MIN_WIDTH_THRESH)
         {
-            Debug.Log(string.Format("Still is waiting another frame for correct info. Frame dims: ({0}, {1}", backCam.width, backCam.height));
+            UnityLogger.DLog(
+                "Still is waiting another frame for correct info. Frame dims: ({0}, {1}", backCam.width, backCam.height
+            );
             return;
         }
         setFrameAspectRatio();        

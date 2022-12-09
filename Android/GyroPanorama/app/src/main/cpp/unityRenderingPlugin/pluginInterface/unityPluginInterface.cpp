@@ -58,7 +58,7 @@ void UnityPluginInterface::getImageFromUnity(
 
 void UnityPluginInterface::getPanoramaDims(int &width, int &height) {
     LOGD("getPanoramaDims", "total images to process %d", image_buffer.size());
-    // joinImageThreads();
+    pano_builder.getPanoDims(width, height);
 }
 
 void UnityPluginInterface::joinImageThreads() {

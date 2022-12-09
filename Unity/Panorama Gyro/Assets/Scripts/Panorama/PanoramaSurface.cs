@@ -20,8 +20,17 @@ public class PanoramaSurface : MonoBehaviour
         panoSurface.texture = getPanoramaTexture();
     }
 
-    private Texture getPanoramaTexture() {
-        // TODO read from Native API the pano image
-        return null;
+    private Texture2D getPanoramaTexture()
+    {
+        int height = 0, width = 0;
+        plugin.getPanoramaDims(ref width, ref height);
+        Texture2D panoTexture = new Texture2D(width, height, TextureFormat.ARGB32, false);
+        panoTexture.Apply();
+
+        plugin.registerTexture(panoTexture);
+
+        UnityLogger.DLog("Created and registered a texture with size {0}x{1}", width, height);
+        plugin.sendRenderEvent(RenderEventID.GetPanorama);
+        return panoTexture;
     }
 }

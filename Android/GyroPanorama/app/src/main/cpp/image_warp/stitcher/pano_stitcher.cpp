@@ -18,14 +18,14 @@ void stitchImages(Mat &img1, Mat &img2, Mat &res) {
     getImageKeypointsAndDescriptors(img2, kpts2, desc2);
 
     if (kpts1.empty() || kpts2.empty()) {
-        LOGE("panot_stitcher", "could not extract keypoints from images");
+        LOGE("pano_stitcher", "could not extract keypoints from images");
         return;
     }
 
     vector<cv::DMatch> good_matches;
     matchImages(desc1, desc2, good_matches);
     if (good_matches.size() < MIN_GOOD_MATCHES_COUNT) {
-        LOGE("panot_stitcher",
+        LOGE("pano_stitcher",
              "could not find enough good matches between images. Min required is %d, found %d",
              MIN_GOOD_MATCHES_COUNT, good_matches.size());
         return;
@@ -47,7 +47,7 @@ void matchImages(Mat &desc1, Mat &desc2, vector<cv::DMatch> &good_matches) {
     vector<vector<cv::DMatch> > knn_matches;
     matcher->knnMatch(desc1, desc2, knn_matches, 2);
 
-    //-- Filter matches using the Lowe's ratio test
+    // Filter matches using the Lowe's ratio test
     const float ratio_thresh = 0.7f;
     for (auto &knn_matche : knn_matches) {
         if (knn_matche[0].distance < ratio_thresh * knn_matche[1].distance) {
@@ -62,11 +62,11 @@ void getHomographyFromMatches(
         vector<cv::DMatch> &good_matches,
         Mat &H
 ) {
-    //-- Localize the object
+    // Localize the object
     vector<Point2f> obj;
     vector<Point2f> scene;
     for (size_t i = 0; i < good_matches.size(); i++) {
-        //-- Get the keypoints from the good matches
+        // Get the keypoints from the good matches
         obj.push_back(kpts1[good_matches[i].queryIdx].pt);
         scene.push_back(kpts2[good_matches[i].trainIdx].pt);
     }

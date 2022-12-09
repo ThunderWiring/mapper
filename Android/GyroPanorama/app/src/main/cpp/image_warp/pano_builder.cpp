@@ -31,4 +31,8 @@ void PanoBuilder::stitch_image(Mat &img) {
     pano_image = res;
 }
 
+int PanoBuilder::getPanoDims(int& w, int& h) const {
+    w = pano_image.cols;
+    h = pano_image.rows;
+}
 

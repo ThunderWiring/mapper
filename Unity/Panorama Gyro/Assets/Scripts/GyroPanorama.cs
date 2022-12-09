@@ -23,12 +23,12 @@ public class GyroPanorama : TouchableObject
     {
         if (sphere == null)
         {
-            Debug.Log("sphere is null");
+            UnityLogger.DLog("sphere is null");
         }
         sphereRenderer = sphere.GetComponent<Renderer>();
         if (sphereRenderer == null)
         {
-            Debug.Log("Sphere has no renderer");
+            UnityLogger.DLog("Sphere has no renderer");
             return;
         }
         Texture2D tex = getPanoramTexture();
@@ -48,7 +48,7 @@ public class GyroPanorama : TouchableObject
         panoTexture.Apply();
 
         rendererPlugin.registerTexture(panoTexture);
-        Debug.Log(string.Format("Created and registered a texture with size {0}x{1}", width, height));
+        UnityLogger.DLog("Created and registered a texture with size {0}x{1}", width, height);
         rendererPlugin.sendRenderEvent(RenderEventID.GetPanorama);
         return panoTexture;
     }
