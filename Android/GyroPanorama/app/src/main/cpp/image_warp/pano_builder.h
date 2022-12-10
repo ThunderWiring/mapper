@@ -25,6 +25,7 @@ public:
 
     void addImage(Mat &img, Quaternion &rot);
     void getPanoDims(int& w, int& h) const;
+    void getPanorama(Mat& out) const;
 };
 
 #endif //GYROPANORAMA_PANO_BUILDER_H

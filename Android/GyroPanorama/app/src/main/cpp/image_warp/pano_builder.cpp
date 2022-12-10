@@ -41,3 +41,6 @@ void PanoBuilder::getPanoDims(int& w, int& h) const {
     h = pano_image.rows;
 }
 
+void PanoBuilder::getPanorama(Mat& out) const {
+    out = pano_image.clone();
+}

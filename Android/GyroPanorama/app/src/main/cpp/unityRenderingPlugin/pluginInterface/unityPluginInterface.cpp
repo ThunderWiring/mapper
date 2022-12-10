@@ -17,6 +17,7 @@ UnityPluginInterface::UnityPluginInterface() : last_ts(getCurrentTimestamp()) {
 void UnityPluginInterface::getPanorama(
         RenderAPI *renderer, void *texture, int width, int height) {
     Mat out;
+    pano_builder.getPanorama(out);
     joinImageThreads();
     if (out.empty()) {
         LOGD("UnityPluginInterface", "empty panorama image");

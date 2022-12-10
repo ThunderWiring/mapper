@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(NativePlugin))]
 public class PanoramaSurface : MonoBehaviour
 {
+    // surface panel that displays the panorama.
     [SerializeField] private RawImage panoSurface;
     
     private NativePlugin plugin;
@@ -24,6 +25,7 @@ public class PanoramaSurface : MonoBehaviour
     {
         int height = 0, width = 0;
         plugin.getPanoramaDims(ref width, ref height);
+        UnityLogger.DLog("getPanoramaTexture - w:{0} h:{1}", width, height);
         Texture2D panoTexture = new Texture2D(width, height, TextureFormat.ARGB32, false);
         panoTexture.Apply();
 
