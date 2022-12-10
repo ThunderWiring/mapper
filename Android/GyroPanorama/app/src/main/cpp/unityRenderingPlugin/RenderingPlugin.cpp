@@ -156,4 +156,3 @@ EXPORTED void paintTexturePanorama() {
 EXPORTED UnityRenderingEvent UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetRenderEventFunc() {
     return OnRenderEvent;
 }
-

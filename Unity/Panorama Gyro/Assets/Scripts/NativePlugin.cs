@@ -109,4 +109,10 @@ public class NativePlugin : MonoBehaviour
         //GC.Collect();
     }
 
+    public bool isPanoramaImageReady() {
+        int w = 0, h = 0;
+        getPanoramaDims(ref w, ref h);
+        return w > 0 && h > 0;
+    }
+
 }
