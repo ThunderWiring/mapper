@@ -74,7 +74,8 @@ void getHomographyFromMatches(
 }
 
 void warpImagesToPano(Mat &img1, Mat &img2, Mat &H, Mat &res) {
-    warpPerspective(img1, res, H, cv::Size(img1.cols + img2.cols, img1.rows));
+    warpPerspective(
+            img1, res, H, cv::Size(img1.cols + img2.cols, img1.rows));
     Mat half(res, cv::Rect(0, 0, img2.cols, img2.rows));
     img2.copyTo(half);
 }

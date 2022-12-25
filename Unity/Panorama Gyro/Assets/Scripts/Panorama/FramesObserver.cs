@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,11 +27,6 @@ public class FramesObserver : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-            return;
-        }
         // check if native plugin is able to form a valid panorama and display button
         panoramButton.gameObject.SetActive(plugin.isPanoramaImageReady());
     }

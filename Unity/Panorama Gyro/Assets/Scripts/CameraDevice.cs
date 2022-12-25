@@ -99,6 +99,8 @@ public class CameraDevice : MonoBehaviour
 
         int orient = -backCam.videoRotationAngle;
         background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
+        UnityLogger.DLog("CamDevice:aspectRatio - w:{0} h:{1}, ratio:{2}",
+            backCam.width, backCam.height, ratio);
     }
 
     private void getCameraPermission()

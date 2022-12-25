@@ -83,6 +83,7 @@ public class NativePlugin : MonoBehaviour
     public void sendCameraFramesToPlugin(
         Color32[] pixels, int width, int height, Quaternion q)
     {
+        UnityLogger.DLog("sendCameraFramesToPlugin - frame dims: w:{0}, h:{1}", width, height);
         var rot = getRotationInfo(q);
         receiveGyroImage(pixels, width, height, rot);
     }

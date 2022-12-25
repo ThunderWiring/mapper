@@ -19,7 +19,7 @@ PanoBuilder::PanoBuilder():
 
 void PanoBuilder::addImage(Mat &img, Quaternion &rot) {
     if (pano_image.empty()) {
-        pano_image = Mat(img);
+        pano_image = img.clone();
         return;
     }
     stitch_image(img);
@@ -27,7 +27,7 @@ void PanoBuilder::addImage(Mat &img, Quaternion &rot) {
 
 void PanoBuilder::stitch_image(Mat &img) {
     Mat res;
-    stitchImages(img, pano_image, res);
+    stitchImages(pano_image, img, res);
     pano_image = res;
 }
 
@@ -43,4 +43,5 @@ void PanoBuilder::getPanoDims(int& w, int& h) const {
 
 void PanoBuilder::getPanorama(Mat& out) const {
     out = pano_image.clone();
+    //cv::rotate(out, out, cv::ROTATE_180);
 }
