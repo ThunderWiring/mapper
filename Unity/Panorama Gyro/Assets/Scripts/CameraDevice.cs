@@ -99,8 +99,6 @@ public class CameraDevice : MonoBehaviour
 
         int orient = -backCam.videoRotationAngle;
         background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
-        UnityLogger.DLog("CamDevice:aspectRatio - w:{0} h:{1}, ratio:{2}",
-            backCam.width, backCam.height, ratio);
     }
 
     private void getCameraPermission()
@@ -130,7 +128,6 @@ public class CameraDevice : MonoBehaviour
                 int width = Screen.width;
                 int height = Screen.height;
                 backCam = new WebCamTexture(devices[i].name, width, height);
-                Debug.Log(string.Format("camera frame dims: w:{0}, h:{1}", width, height));
                 break;
             }
         }
@@ -158,7 +155,6 @@ public class CameraDevice : MonoBehaviour
             return;
         }
         else if (captureMode == CaptureMode.Snapshot) {
-            UnityLogger.DLog("passing frame to plugin");
             passFrameToPlugin();
             return;
         }
