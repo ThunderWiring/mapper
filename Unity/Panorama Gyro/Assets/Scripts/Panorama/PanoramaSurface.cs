@@ -30,6 +30,7 @@ public class PanoramaSurface : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
+            plugin.clearPanoramaBuffer();
             SceneManager.LoadScene(0);
             return;
         }

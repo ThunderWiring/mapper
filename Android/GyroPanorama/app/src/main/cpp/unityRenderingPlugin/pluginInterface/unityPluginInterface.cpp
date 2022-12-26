@@ -70,3 +70,10 @@ void UnityPluginInterface::joinImageThreads() {
     }
 }
 
+void UnityPluginInterface::resetImages() {
+    image_buffer.clear();
+    for (auto &img_worker : image_workers) {
+        img_worker.detach();
+    }
+    pano_builder.clearPanorama();
+}

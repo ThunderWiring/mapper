@@ -99,6 +99,14 @@ static void UNITY_INTERFACE_API OnRenderEvent(int eventID) {
 }
 
 /**
+ * Resets all the images taken so far as well as the calculated panorama.
+ * Calling this function will be in the same state as when user opens the app for first time.
+ * */
+EXPORTED void resetImagesBuffer() {
+    pluginInterface.resetImages();
+}
+
+/**
  * Returns the panorama dimensions back to Unity code.
  */
 EXPORTED void getPanoDims(int &width, int &height) {

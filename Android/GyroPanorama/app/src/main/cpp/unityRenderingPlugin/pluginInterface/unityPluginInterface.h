@@ -40,6 +40,8 @@ public:
 
     void getImageFromUnity(
             Quaternion q, UnityColor32 *bytes, int width, int height);
+
+    void resetImages();
 };
 
 #endif //GYROPANORAMA_UNITYPLUGININTERFACE_H

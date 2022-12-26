@@ -103,3 +103,7 @@ void PanoBuilder::remove_black_background(Mat& img) const {
 
     img = img(frame);
 }
+
+void PanoBuilder::clearPanorama() {
+    pano_image.release();
+}

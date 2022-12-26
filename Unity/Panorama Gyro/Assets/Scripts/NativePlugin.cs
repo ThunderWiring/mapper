@@ -70,6 +70,13 @@ public class NativePlugin : MonoBehaviour
     private static extern void receiveGyroImage(
         Color32[] pixels, int width, int height, RotationInfo rotInfo);
 
+#if (UNITY_IOS || UNITY_TVOS || UNITY_WEBGL) && !UNITY_EDITOR
+	[DllImport ("__Internal")]
+#else
+    [DllImport("NativeRenderingPlugin")]
+#endif
+    private static extern void resetImagesBuffer();
+
     public void registerTexture(Texture texture)
     {
         if (texture == null)
@@ -80,6 +87,13 @@ public class NativePlugin : MonoBehaviour
         SetTextureFromUnity(texture.GetNativeTexturePtr(), texture.width, texture.height);
     }
 
+    /// <summary>
+    /// Clears all the images taken by the camera so far, as well as the calculated panorama image.
+    /// </summary>
+    public void clearPanoramaBuffer() {
+        resetImagesBuffer();
+    }
+    
     public void sendCameraFramesToPlugin(
         Color32[] pixels, int width, int height, Quaternion q)
     {
