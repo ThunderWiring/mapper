@@ -20,6 +20,7 @@ private:
      * Stitch @param img with pano_image.
      * */
     void stitch_image(Mat& img);
+    void remove_black_background(Mat& img) const;
 public:
     PanoBuilder();
 

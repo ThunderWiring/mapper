@@ -158,6 +158,7 @@ public class CameraDevice : MonoBehaviour
             return;
         }
         else if (captureMode == CaptureMode.Snapshot) {
+            UnityLogger.DLog("passing frame to plugin");
             passFrameToPlugin();
             return;
         }

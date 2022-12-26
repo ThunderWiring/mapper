@@ -37,11 +37,69 @@ void PanoBuilder::getPanoDims(int& w, int& h) const {
         h = 0;
         return;
     }
-    w = pano_image.cols;
-    h = pano_image.rows;
+    Mat tmp =pano_image;
+    remove_black_background(tmp);
+    w = tmp.cols;
+    h = tmp.rows;
 }
 
 void PanoBuilder::getPanorama(Mat& out) const {
     out = pano_image.clone();
-    //cv::rotate(out, out, cv::ROTATE_180);
+    remove_black_background(out);
+}
+
+void PanoBuilder::remove_black_background(Mat& img) const {
+    /**
+     * reference: https://stackoverflow.com/a/10647177/3983756
+     * */
+
+    /**Blur the image to remove noise, threshold the image, then find contours.*/
+    Mat modified_img = img;
+    if (img.channels() == 3) {
+        cv::cvtColor(img, modified_img, cv::COLOR_BGR2GRAY);
+    }
+    cv::medianBlur(modified_img, modified_img, 3);
+    cv::threshold(modified_img, modified_img, 1, 255, 0);
+
+    /** find largest contour */
+    auto contours = vector<vector<cv::Point>>();
+    cv::findContours(modified_img, contours, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE);
+
+    vector<cv::Point> largest_contour;
+    float max_area = -1;
+    for (auto& contour : contours) {
+        float area = cv::contourArea(contour);
+        if (max_area < area) {
+            max_area = area;
+            largest_contour = contour;
+        }
+    }
+
+    /** remove redundant points from the largest contour while preserving the corners */
+    vector<cv::Point> approx_contour;
+    double epsilon = 0.01 * cv::arcLength(largest_contour, true);
+    cv::approxPolyDP(largest_contour, approx_contour, epsilon, true);
+
+    /** find the corners
+        3 of the 4 corners must be (0,0), (0, y), (x, 0)
+        the 4th point must be the one with the largest product of both coords,
+        since it's the furthest corner.
+     */
+    double max_coord_prod = 0;
+    cv::Point p1(cv::Point(0,0)), p2, p3, p4;
+    for (auto& point : approx_contour) {
+        if (point.x == 0 && point.y != 0) {
+            p3 = point;
+        } else if (point.x != 0 && point.y == 0) {
+            p2 = point;
+        } else if (point.x * point.y > max_coord_prod) {
+            p4 = point;
+            max_coord_prod = point.x * point.y;
+        }
+    }
+    p4.x = std::fmin(p4.x, p2.x);
+    p4.y = std::fmin(p4.y, p3.y);
+    auto frame = cv::Rect(p1, p4);
+
+    img = img(frame);
 }
